@@ -3,6 +3,7 @@
 #   Even when a concept seemed clear theoretically, gettings pandas to execute
 #   the idea properly was difficult at times
 
+import image
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,13 +70,27 @@ dates_dow
 # Convert 'year' column to datetime format so we can use it in fill_between
 pres['year'] = pres['year'].apply(lambda x: pd.to_datetime(str(x), format='%Y'))
 dates_pres = pres['year'].values
-#pres.set_index(['year'])
 
 # Color based on demcrat or republican party in power
-plot = dow.plot()
+#dow.set_index('Date', inplace=True)
+plt.plot(dow)
+
 for date in dates_pres:
     party = pres.loc[pres['year'] == date, 'party'].iloc[0]
     if party == 'democrat':
-        plt.fill_between(dates_dow, dow['Value'], where=dow['Date'] > date, facecolor='blue')
+        plt.fill_between(dates_dow, dow['Value'], where=dow.index > date, facecolor='blue')
     if party == 'republican':
-        plt.fill_between(dates_dow, dow['Value'], where=dow['Date'] > date, facecolor='red')
+        plt.fill_between(dates_dow, dow['Value'], where=dow.index > date, facecolor='red')
+
+
+
+
+
+
+
+
+
+
+
+
+#plt.savefig('/home/tdreilloc/dow_per_term.jpg')
